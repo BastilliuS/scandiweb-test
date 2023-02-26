@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/scandiweb-test/static/css/main.052c4f37.css",
+    "main.js": "/scandiweb-test/static/js/main.82fe0ddf.js",
+    "static/js/787.6dc9d4b4.chunk.js": "/scandiweb-test/static/js/787.6dc9d4b4.chunk.js",
+    "index.html": "/scandiweb-test/index.html",
+    "main.052c4f37.css.map": "/scandiweb-test/static/css/main.052c4f37.css.map",
+    "main.82fe0ddf.js.map": "/scandiweb-test/static/js/main.82fe0ddf.js.map",
+    "787.6dc9d4b4.chunk.js.map": "/scandiweb-test/static/js/787.6dc9d4b4.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.052c4f37.css",
+    "static/js/main.82fe0ddf.js"
+  ]
+}
