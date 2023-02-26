@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import "./FormPage.css";
+import TypeSwitcher from "./TypeSwitcher/TypeSwitcher";
 function FormPage() {
   return (
     <div className="page-container">
@@ -19,7 +20,30 @@ function FormPage() {
           </button>
         </div>
       </div>
-      <div className="products-container"></div>
+      
+        <div id="product_form">
+          <div className="form-fields">
+            <div className="SKU-container">
+              <label>SKU</label>
+              <input type="text"></input>
+            </div>
+            <div className="name-container">
+              <label>Name</label>
+              <input type="text"></input>
+            </div>
+            <div className="price-container">
+              <label>Price ($)</label>
+              <input type="text"></input>
+            </div>
+          </div>
+          
+            
+            <TypeSwitcher/>
+            
+          
+          
+        </div>
+      
       <div className="footer-container">Scandiweb Test Assignment</div>
     </div>
   );
