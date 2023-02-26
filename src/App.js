@@ -2,7 +2,7 @@ import "./App.css";
 
 import MassDeleteButton from "./Components/Buttons/MassDeleteButton";
 import Products from "./Components/Products/Products";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 import FormPage from "./FormPage";
 
 function App() {
@@ -54,12 +54,12 @@ function App() {
     );
   }
   return (
-    <BrowserRouter>
+    
       <Routes>
-        <Route path="bastillius.github.io/scandiweb-test/" element={<MainPage />} />
-        <Route path="bastillius.github.io/scandiweb-test/add-product" element={<FormPage />} />
+        <Route path="/" element={<MainPage />} />
+        <Route path="/add-product" element={<FormPage />} />
       </Routes>
-    </BrowserRouter>
+    
   );
 }
 

@@ -42,7 +42,7 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "http://BastilliuS.github.io/scandiweb-test",
+  "homepage": "http://BastilliuS.github.io/scandiweb-test/#",
   "devDependencies": {
     "gh-pages": "^5.0.0"
   }
