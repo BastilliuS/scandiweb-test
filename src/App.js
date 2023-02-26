@@ -56,8 +56,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/add-product" element={<FormPage />} />
+        <Route path="bastillius.github.io/scandiweb-test/" element={<MainPage />} />
+        <Route path="bastillius.github.io/scandiweb-test/add-product" element={<FormPage />} />
       </Routes>
     </BrowserRouter>
   );
