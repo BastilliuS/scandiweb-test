@@ -6,7 +6,7 @@ const Products = (props) => {
         <input type="checkbox"/>
     </div>
     <div className="product-content">
-        <div>{props.id}</div>
+        <div>{props.SKU}</div>
         <div>{props.name}</div>
         <div>{props.price}</div> 
     </div>

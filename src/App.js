@@ -1,12 +1,24 @@
 import "./App.css";
-
+import { useEffect,useState } from "react";
 import MassDeleteButton from "./Components/Buttons/MassDeleteButton";
 import Products from "./Components/Products/Products";
 import { Routes, Route, Link } from "react-router-dom";
 import FormPage from "./FormPage";
 
 function App() {
-  let productsArray = [
+  // const [products, setProducts] = useState([]);
+
+  // useEffect(() => {
+  //   fetch('http://localhost/db.php')
+  //     .then(response => response.json())
+  //     .then(data => setProducts(data))
+  //     .catch(error => console.log(error));
+  // }, []);
+
+  // console.log(products)
+  
+
+  let products = [
     { id: 0, name: "Acme DISC", price: "$1" },
     { id: 1, name: "War and Peace", price: "$20.00" },
     { id: 2, name: "Chair", price: "$40.00" },
@@ -39,12 +51,12 @@ function App() {
           </div>
         </div>
         <div className="products-container">
-          {productsArray.map((product) => {
+          {products.map((product) => {
             return (
               <Products
-                key={product.id}
-                name={product.name}
-                price={product.price}
+                key={products.id}
+                name={products.name}
+                price={products.price}
               />
             );
           })}
@@ -54,12 +66,10 @@ function App() {
     );
   }
   return (
-    
-      <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/add-product" element={<FormPage />} />
-      </Routes>
-    
+    <Routes>
+      <Route path="/" element={<MainPage />} />
+      <Route path="/add-product" element={<FormPage />} />
+    </Routes>
   );
 }
 
