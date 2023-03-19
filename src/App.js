@@ -8,15 +8,7 @@ import FormPage from "./FormPage";
 function App() {
   const [products, setProducts] = useState([]);
 
-  // useEffect(() => {
-  //   fetch('/db.php')
-  //     .then(response => response.json())
-  //     .then(data => setProducts(data))
-  //     .catch(error => console.error(error));
-  // }, []);
-
-  // console.log(products)
-
+ 
   useEffect(() => {
     fetch("http://localhost/db.php")
       .then((response) => response.json())
@@ -26,25 +18,13 @@ function App() {
 
   console.log(products);
 
-  // let products = [
-  //   { id: 0, name: "Acme DISC", price: "$1" },
-  //   { id: 1, name: "War and Peace", price: "$20.00" },
-  //   { id: 2, name: "Chair", price: "$40.00" },
-  //   { id: 3, name: "Chair", price: "$40.00" },
-  //   { id: 4, name: "Chair", price: "$40.00" },
-  //   { id: 5, name: "Chair", price: "$40.00" },
-  //   { id: 6, name: "Chair", price: "$40.00" },
-  //   { id: 7, name: "Chair", price: "$40.00" },
-  //   { id: 8, name: "Chair", price: "$40.00" },
-  //   { id: 10, name: "Chair", price: "$40.00" },
-  //   { id: 11, name: "Chair", price: "$40.00" },
-  //   { id: 12, name: "Chair", price: "$40.00" },
-  //   { id: 13, name: "Chair", price: "$40.00" },
-  //   { id: 14, name: "Chair", price: "$40.00" },
-  //   { id: 15, name: "Chair", price: "$40.00" },
-  //   { id: 16, name: "Chair", price: "$40.00" },
-  // ];
-  console.log(products[0])
+  
+  function updateProducts(){
+    fetch("http://localhost/db.php")
+    .then((response) => response.json())
+  .then((data) => setProducts(data))
+  }
+  
   function MainPage() {
     return (
       <div className="page-container">
@@ -63,7 +43,7 @@ function App() {
           {products.map((product) => {
             return (
               <Products
-              key={product.id}
+              key={product.ID}
                 sku={product.SKU}
                 name={product.Name}
                 price={product.Price}
@@ -82,7 +62,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<MainPage />} />
-      <Route path="/add-product" element={<FormPage />} />
+      <Route path="/add-product" element={<FormPage updateProducts={updateProducts} />} />
     </Routes>
   );
 }

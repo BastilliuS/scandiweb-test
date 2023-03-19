@@ -14,9 +14,9 @@ const Products = (props) => {
       <div className="product-content">
         <div>{props.sku}</div>
         <div>{props.name}</div>
-        <div>{props.price}</div>
+        <div>{props.price}$</div>
         {type === "DVD" && <div className="size">Size: {size} MB</div>}
-        {type === "BOOK" && (<div className="weight">Weight: {weight} </div>)}
+        {type === "BOOK" && (<div className="weight">Weight: {weight} KG</div>)}
         {type === "Furniture" && (
           <div className="dimensions">Dimensions: {dimensions} cm</div>
         )}
