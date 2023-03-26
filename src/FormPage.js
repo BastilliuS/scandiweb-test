@@ -6,6 +6,10 @@ import { useState } from "react";
 import "./TypeSwitcher/TypeSwitcher.css";
 
 function FormPage(props) {
+
+  
+  
+
   const [sku, setSku] = useState("");
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
@@ -72,7 +76,7 @@ function FormPage(props) {
         <div className="form-fields">
           <div className="SKU-container">
             <label>SKU</label>
-            <input
+            <input id="sku"
               type="text"
               value={sku}
               onChange={(e) => setSku(e.target.value)}
@@ -80,7 +84,7 @@ function FormPage(props) {
           </div>
           <div className="name-container">
             <label>Name</label>
-            <input
+            <input id="name"
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -88,7 +92,7 @@ function FormPage(props) {
           </div>
           <div className="price-container">
             <label>Price ($)</label>
-            <input
+            <input id="price"
               type="text"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
@@ -99,7 +103,7 @@ function FormPage(props) {
         <div className="type-switcher-container">
           <div className="type-dropdown">
             <label id="label1">Type Switcher</label>
-            <select
+            <select id="productType"
               className="type-switcher"
               value={selectedOption}
               onChange={handleSelectChange}
@@ -120,7 +124,7 @@ function FormPage(props) {
             {selectedOption === "DVD" && (
               <div>
                 <label>Size(MB)</label>
-                <input
+                <input 
                   type="text"
                   id="size"
                   value={dvdSize}

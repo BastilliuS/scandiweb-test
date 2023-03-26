@@ -1,14 +1,13 @@
 import "./App.css";
 import { useEffect, useState } from "react";
-import MassDeleteButton from "./Components/Buttons/MassDeleteButton";
-import Products from "./Components/Products/Products";
+
 import { Routes, Route, Link } from "react-router-dom";
 import FormPage from "./FormPage";
 
 function App() {
   const [products, setProducts] = useState([]);
 
- 
+  const [selectedProductIds, setSelectedProductIds] = useState([]);
   useEffect(() => {
     fetch("http://localhost/db.php")
       .then((response) => response.json())
@@ -16,15 +15,50 @@ function App() {
       .catch((error) => console.log(error));
   }, []);
 
-  console.log(products);
-
-  
-  function updateProducts(){
+  function updateProducts() {
     fetch("http://localhost/db.php")
-    .then((response) => response.json())
-  .then((data) => setProducts(data))
+      .then((response) => response.json())
+      .then((data) => setProducts(data));
   }
-  
+
+ 
+
+  const handleProductSelection = (productId, isSelected) => {
+    if (isSelected) {
+      // add productId to selectedProductIds array
+      setSelectedProductIds((prevState) => [...prevState, productId]);
+    } else {
+      // remove productId from selectedProductIds array
+      setSelectedProductIds((prevState) =>
+        prevState.filter((id) => id !== productId)
+      );
+    }
+  };
+  setTimeout(() => {
+    console.log(selectedProductIds);
+  }, 0);
+
+  // const [selectedProducts, setSelectedProducts] = useState([]);
+
+  // const handleProductSelection = (productId, isSelected) => {
+  //   if (isSelected) {
+  //     setSelectedProducts([...selectedProducts, productId]);
+  //   } else {
+  //     setSelectedProducts(selectedProducts.filter(id => id !== productId));
+  //   }
+  //   console.log(selectedProducts)
+  // };
+
+  const handleMassDelete = () => {
+    fetch("http://localhost/delete.php", {
+      method: "POST",
+      body: JSON.stringify(selectedProductIds),
+    }).then(() => {
+      setSelectedProductIds([]);
+      updateProducts();
+    });
+  };
+
   function MainPage() {
     return (
       <div className="page-container">
@@ -36,22 +70,42 @@ function App() {
                 ADD
               </Link>
             </button>
-            <MassDeleteButton />
+            <button onClick={handleMassDelete}>MASS DELETE</button>
           </div>
         </div>
         <div className="products-container">
           {products.map((product) => {
             return (
-              <Products
-              key={product.ID}
-                sku={product.SKU}
-                name={product.Name}
-                price={product.Price}
-                type={product.TYPE}
-                weight={product.BOOK_WEIGHT}
-                size={product.DVD_SIZE}
-                dimensions={product.FURNITURE_DIMENSIONS}
-              />
+              <div key={product.ID} className="product-container">
+                <div className="checkbox-container">
+                  <input className="delete-checkbox"
+                    type="checkbox"
+                    checked={selectedProductIds.includes(product.ID)}
+                    onChange={(e) =>
+                      handleProductSelection(product.ID, e.target.checked)
+                    }
+                  />
+                </div>
+                <div className="product-content">
+                  <div>{product.SKU}</div>
+                  <div>{product.Name}</div>
+                  <div>{product.Price}$</div>
+                  {product.TYPE === "DVD" && (
+                    <div className="size">Size: {product.DVD_SIZE} MB</div>
+                  )}
+                  {product.TYPE === "BOOK" && (
+                    <div className="weight">
+                      Weight: {product.BOOK_WEIGHT} KG
+                    </div>
+                  )}
+                  {product.TYPE === "Furniture" && (
+                    <div className="dimensions">
+                      Dimensions: {product.FURNITURE_DIMENSIONS} cm
+                    </div>
+                  )}
+                </div>
+              </div>
+             
             );
           })}
         </div>
@@ -62,7 +116,10 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<MainPage />} />
-      <Route path="/add-product" element={<FormPage updateProducts={updateProducts} />} />
+      <Route
+        path="/add-product"
+        element={<FormPage updateProducts={updateProducts} />}
+      />
     </Routes>
   );
 }
