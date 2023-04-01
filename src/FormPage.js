@@ -40,6 +40,104 @@ function FormPage(props) {
     } else return true;
   };
   const [isFormValid, setIsFormValid] = useState();
+  const [errors, setErrors] = useState([]);
+  function handleBlur(event) {
+    const { name, value } = event.target;
+    if (name === "price" && isNaN(value)) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        price: "Please provide a numeric value",
+      }));
+    }
+    else if (name === "price" && value===""){
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        price: "",}))
+    }
+    if (name === "weight" && isNaN(value)) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        weight: "Please provide a numeric value",
+      }));
+    }
+    else if (name === "weight" && value===""){
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        weight: "",}))
+    }
+    if (name === "height" && isNaN(value)) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        height: "Please provide a numeric value",
+      }));
+    }
+    else if (name === "height" && value===""){
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        height: "",}))
+    }
+    if (name === "width" && isNaN(value)) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        width: "Please provide a numeric value",
+      }));
+    }
+    else if (name === "width" && value===""){
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        width: "",}))
+    }
+    if (name === "length" && isNaN(value)) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        length: "Please provide a numeric value",
+      }));
+    }
+    else if (name === "length" && value===""){
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        length: "",}))
+    }
+    if (name === "name" && !isNaN(value)) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        name: "Please provide a text value",
+      }));
+    }
+    else if (name === "name" && value===""){
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        name: "",}))
+    }
+    else if (name === "name" && value===""){
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        name: "",}))
+    }
+    if (name === "sku" && isNaN(value)) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        sku: "Please provide a numeric value",
+      }));
+    }
+    else if (name === "sku" && value===""){
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        sku: "",}))
+    }
+    if (name === "size" && isNaN(value)) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        size: "Please provide a numeric value",
+      }));
+    }
+    else if (name === "size" && value===""){
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        size: "",}))
+    }
+    console.log(errors)
+  }
 
   const handleSave = () => {
     const isValid = validateForm();
@@ -105,44 +203,59 @@ function FormPage(props) {
 
       <div id="product_form">
         <div className="form-fields">
-          <div className="SKU-container">
-            <label>SKU</label>
-            <input
-              id="sku"
-              type="text"
-              value={sku}
-              onChange={(e) => {
-                setSku(e.target.value);
-                setFormValues({ ...formValues, sku: e.target.value });
-              }}
-              required
-            ></input>
+          <div className="sku_and_error">
+            <div className="SKU-container">
+              <label>SKU</label>
+              <input
+                name="sku"
+                id="sku"
+                type="text"
+                value={sku}
+                onChange={(e) => {
+                  setSku(e.target.value);
+                  setFormValues({ ...formValues, sku: e.target.value });
+                }}
+                required
+                onBlur={handleBlur}
+              ></input>
+            </div>
+            {errors.sku && <div>{errors.sku}</div>}
           </div>
-          <div className="name-container">
-            <label>Name</label>
-            <input
-              id="name"
-              type="text"
-              value={name}
-              onChange={(e) => {
-                setName(e.target.value);
-                setFormValues({ ...formValues, name: e.target.value });
-              }}
-              required
-            ></input>
+          <div className="name_and_error">
+            <div className="name-container">
+              <label>Name</label>
+              <input
+                name="name"
+                id="name"
+                type="text"
+                value={name}
+                onChange={(e) => {
+                  setName(e.target.value);
+                  setFormValues({ ...formValues, name: e.target.value });
+                }}
+                required
+                onBlur={handleBlur}
+              ></input>
+            </div>
+            {errors.name && <div>{errors.name}</div>}
           </div>
-          <div className="price-container">
-            <label>Price ($)</label>
-            <input
-              id="price"
-              type="text"
-              value={price}
-              onChange={(e) => {
-                setPrice(e.target.value);
-                setFormValues({ ...formValues, price: e.target.value });
-              }}
-              required
-            ></input>
+          <div className="price_and_error">
+            <div className="price-container">
+              <label>Price ($)</label>
+              <input
+                name="price"
+                id="price"
+                type="text"
+                value={price}
+                onChange={(e) => {
+                  setPrice(e.target.value);
+                  setFormValues({ ...formValues, price: e.target.value });
+                }}
+                required
+                onBlur={handleBlur}
+              ></input>
+            </div>
+            {errors.price && <div>{errors.price}</div>}
           </div>
         </div>
 
@@ -171,79 +284,112 @@ function FormPage(props) {
           </div>
           <div className="type-holder">
             {selectedOption === "DVD" && (
-              <div>
-                <label>Size(MB)</label>
-                <input
-                  type="text"
-                  id="size"
-                  value={dvdSize}
-                  onChange={(e) => {
-                    setDvdSize(e.target.value);
-                    setFormValues({ ...formValues, size: e.target.value });
-                  }}
-                  required
-                ></input>
-                <div>Please input DVD size in MB.</div>
+              <div className="size_and_error">
+                <div>
+                  <label>Size(MB)</label>
+                  <input
+                    name="size"
+                    type="text"
+                    id="size"
+                    value={dvdSize}
+                    onChange={(e) => {
+                      setDvdSize(e.target.value);
+                      setFormValues({ ...formValues, size: e.target.value });
+                    }}
+                    required
+                    onBlur={handleBlur}
+                  ></input>
+                  <div>Please input DVD size in MB.</div>
+                </div>
+                {errors.size && <div>{errors.size}</div>}
               </div>
             )}
             {selectedOption === "Furniture" && (
               <div>
-                <div>
-                  <label>Height (CM)</label>
-                  <input
-                    type="text"
-                    id="height"
-                    value={furnitureHeight}
-                    onChange={(e) => {
-                      setFurnitureHeight(e.target.value);
-                      setFormValues({ ...formValues, height: e.target.value });
-                    }}
-                    required
-                  ></input>
+                <div className="height_and_error">
+                  <div>
+                    <label>Height (CM)</label>
+                    <input
+                      name="height"
+                      type="text"
+                      id="height"
+                      value={furnitureHeight}
+                      onChange={(e) => {
+                        setFurnitureHeight(e.target.value);
+                        setFormValues({
+                          ...formValues,
+                          height: e.target.value,
+                        });
+                      }}
+                      required
+                      onBlur={handleBlur}
+                    ></input>
+                  </div>
+                  {errors.height && <div>{errors.height}</div>}
+                </div>
+                <div className="width_and_error">
+                  <div>
+                    <label>Width (CM)</label>
+                    <input
+                      name="width"
+                      type="text"
+                      id="width"
+                      value={furnitureWidth}
+                      onChange={(e) => {
+                        setFurnitureWidth(e.target.value);
+                        setFormValues({ ...formValues, width: e.target.value });
+                      }}
+                      required
+                      onBlur={handleBlur}
+                    ></input>
+                  </div>
+                  {errors.width && <div>{errors.width}</div>}
+                </div>
+                <div className="length_and_error">
+                  <div>
+                    <label>Length (CM)</label>
+                    <input
+                      name="length"
+                      type="text"
+                      id="length"
+                      value={furnitureLength}
+                      onChange={(e) => {
+                        setFurnitureLength(e.target.value);
+                        setFormValues({
+                          ...formValues,
+                          length: e.target.value,
+                        });
+                      }}
+                      required
+                      onBlur={handleBlur}
+                    ></input>
+                  </div>
+                  {errors.length && <div>{errors.length}</div>}
                 </div>
                 <div>
-                  <label>Width (CM)</label>
-                  <input
-                    type="text"
-                    id="width"
-                    value={furnitureWidth}
-                    onChange={(e) => {
-                      setFurnitureWidth(e.target.value);
-                      setFormValues({ ...formValues, width: e.target.value });
-                    }}
-                    required
-                  ></input>
-                </div>
-                <div>
-                  <label>Length (CM)</label>
-                  <input
-                    type="text"
-                    id="length"
-                    value={furnitureLength}
-                    onChange={(e) => {
-                      setFurnitureLength(e.target.value);
-                      setFormValues({ ...formValues, length: e.target.value });
-                    }}
-                    required
-                  ></input>
-                  <div>Please input furniture dimensions in CM, and in HxWxL format.</div>
+                  Please input furniture dimensions in CM, and in HxWxL format.
                 </div>
               </div>
             )}
             {selectedOption === "Book" && (
-              <div>
-                <label>Weight(KG)</label>
-                <input
-                  type="text"
-                  id="weight"
-                  value={bookWeight}
-                  onChange={(e) => {
-                    setBookWeight(e.target.value);
-                    setFormValues({ ...formValues, weight: e.target.value });
-                  }}
-                  required
-                ></input>
-                <div>Please input BOOK weight in KG.</div>
+              <div className="weight_and_error">
+                <div>
+                  <label>Weight(KG)</label>
+                  <input
+                    name="weight"
+                    type="text"
+                    id="weight"
+                    value={bookWeight}
+                    onChange={(e) => {
+                      setBookWeight(e.target.value);
+                      setFormValues({ ...formValues, weight: e.target.value });
+                    }}
+                    required
+                    onBlur={handleBlur}
+                  ></input>
+                  <div>Please input BOOK weight in KG.</div>
+                </div>
+                {errors.weight && <div>{errors.weight}</div>}
               </div>
             )}
           </div>

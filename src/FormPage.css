@@ -47,7 +47,7 @@
     text-decoration: none;
   }
   .form-fields{
-    width: 400px;
+    width: 600px;
     padding-top: 30px;
   }
   .SKU-container,
@@ -58,4 +58,15 @@
     justify-content: space-between;
     padding: 5px;
   }
-  
+  .price_and_error,
+  .name_and_error,
+  .sku_and_error,
+  .size_and_error,
+  .weight_and_error,
+  .height_and_error,
+  .length_and_error,
+  .width_and_error{
+    display: flex;
+    width: 700px;
+    text-align: center;
+  }
