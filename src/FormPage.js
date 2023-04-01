@@ -6,9 +6,16 @@ import { useState } from "react";
 import "./TypeSwitcher/TypeSwitcher.css";
 
 function FormPage(props) {
-
-  
-  
+  const [formValues, setFormValues] = useState({
+    sku: "",
+    name: "",
+    price: "",
+    weight: "",
+    size: "",
+    height: "",
+    width: "",
+    length: "",
+  });
 
   const [sku, setSku] = useState("");
   const [name, setName] = useState("");
@@ -20,31 +27,51 @@ function FormPage(props) {
   const [furnitureWidth, setFurnitureWidth] = useState("");
   const [furnitureLength, setFurnitureLength] = useState("");
 
+  const validateForm = () => {
+    if (
+      !formValues.sku ||
+      !formValues.name ||
+      !formValues.price ||
+      ((!formValues.height || !formValues.length || !formValues.width) &&
+        !formValues.weight &&
+        !formValues.size)
+    ) {
+      return false;
+    } else return true;
+  };
+  const [isFormValid, setIsFormValid] = useState();
+
   const handleSave = () => {
-    const productData = {
-      sku: sku,
-      name: name,
-      price: price,
-      type: type,
-      book_weight: type === "Book" ? bookWeight : null,
-      dvd_size: type === "DVD" ? dvdSize : null,
-      furniture_dimensions:
-        type === "Furniture"
-          ? `${furnitureHeight}x${furnitureWidth}x${furnitureLength}`
-          : null,
-    };
-    console.log(productData);
+    const isValid = validateForm();
+    setIsFormValid(isValid);
+    if (isValid) {
+      const productData = {
+        sku: sku,
+        name: name,
+        price: price,
+        type: type,
+        book_weight: type === "Book" ? bookWeight : null,
+        dvd_size: type === "DVD" ? dvdSize : null,
+        furniture_dimensions:
+          type === "Furniture"
+            ? `${furnitureHeight}x${furnitureWidth}x${furnitureLength}`
+            : null,
+      };
+      console.log(productData);
 
-    fetch("http://localhost/add_product.php", {
-      method: "POST",
+      fetch("http://localhost/add_product.php", {
+        method: "POST",
 
-      body: JSON.stringify(productData),
-    })
-      .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.error(error));
-      
+        body: JSON.stringify(productData),
+      })
+        .then((response) => response.json())
+        .then((data) => console.log(data))
+        .catch((error) => console.error(error));
+
       props.updateProducts();
+    } else {
+      alert("Please enter required information");
+    }
   };
 
   const [selectedOption, setSelectedOption] = useState("TypeSwitcher");
@@ -60,9 +87,13 @@ function FormPage(props) {
         <div id="product-list">Product Add</div>
         <div className="buttons">
           <button onClick={handleSave}>
-            <Link className="link" to={"/"}>
-              SAVE
-            </Link>
+            {isFormValid ? (
+              <Link className="link" to={"/"}>
+                SAVE
+              </Link>
+            ) : (
+              <span>SAVE</span>
+            )}
           </button>
           <button>
             <Link className="link" to={"/"}>
@@ -76,26 +107,41 @@ function FormPage(props) {
         <div className="form-fields">
           <div className="SKU-container">
             <label>SKU</label>
-            <input id="sku"
+            <input
+              id="sku"
               type="text"
               value={sku}
-              onChange={(e) => setSku(e.target.value)}
+              onChange={(e) => {
+                setSku(e.target.value);
+                setFormValues({ ...formValues, sku: e.target.value });
+              }}
+              required
             ></input>
           </div>
           <div className="name-container">
             <label>Name</label>
-            <input id="name"
+            <input
+              id="name"
               type="text"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => {
+                setName(e.target.value);
+                setFormValues({ ...formValues, name: e.target.value });
+              }}
+              required
             ></input>
           </div>
           <div className="price-container">
             <label>Price ($)</label>
-            <input id="price"
+            <input
+              id="price"
               type="text"
               value={price}
-              onChange={(e) => setPrice(e.target.value)}
+              onChange={(e) => {
+                setPrice(e.target.value);
+                setFormValues({ ...formValues, price: e.target.value });
+              }}
+              required
             ></input>
           </div>
         </div>
@@ -103,12 +149,15 @@ function FormPage(props) {
         <div className="type-switcher-container">
           <div className="type-dropdown">
             <label id="label1">Type Switcher</label>
-            <select id="productType"
+            <select
+              id="productType"
               className="type-switcher"
               value={selectedOption}
               onChange={handleSelectChange}
             >
-              <option value="Make a selection" id="Make a selection">Select</option>
+              <option value="Make a selection" id="Make a selection">
+                Select
+              </option>
               <option value="DVD" id="DVD">
                 DVD
               </option>
@@ -124,12 +173,17 @@ function FormPage(props) {
             {selectedOption === "DVD" && (
               <div>
                 <label>Size(MB)</label>
-                <input 
+                <input
                   type="text"
                   id="size"
                   value={dvdSize}
-                  onChange={(e) => setDvdSize(e.target.value)}
+                  onChange={(e) => {
+                    setDvdSize(e.target.value);
+                    setFormValues({ ...formValues, size: e.target.value });
+                  }}
+                  required
                 ></input>
+                <div>Please input DVD size in MB.</div>
               </div>
             )}
             {selectedOption === "Furniture" && (
@@ -140,7 +194,11 @@ function FormPage(props) {
                     type="text"
                     id="height"
                     value={furnitureHeight}
-                    onChange={(e) => setFurnitureHeight(e.target.value)}
+                    onChange={(e) => {
+                      setFurnitureHeight(e.target.value);
+                      setFormValues({ ...formValues, height: e.target.value });
+                    }}
+                    required
                   ></input>
                 </div>
                 <div>
@@ -149,7 +207,11 @@ function FormPage(props) {
                     type="text"
                     id="width"
                     value={furnitureWidth}
-                    onChange={(e) => setFurnitureWidth(e.target.value)}
+                    onChange={(e) => {
+                      setFurnitureWidth(e.target.value);
+                      setFormValues({ ...formValues, width: e.target.value });
+                    }}
+                    required
                   ></input>
                 </div>
                 <div>
@@ -158,8 +220,13 @@ function FormPage(props) {
                     type="text"
                     id="length"
                     value={furnitureLength}
-                    onChange={(e) => setFurnitureLength(e.target.value)}
+                    onChange={(e) => {
+                      setFurnitureLength(e.target.value);
+                      setFormValues({ ...formValues, length: e.target.value });
+                    }}
+                    required
                   ></input>
+                  <div>Please input furniture dimensions in CM, and in HxWxL format.</div>
                 </div>
               </div>
             )}
@@ -170,8 +237,13 @@ function FormPage(props) {
                   type="text"
                   id="weight"
                   value={bookWeight}
-                  onChange={(e) => setBookWeight(e.target.value)}
+                  onChange={(e) => {
+                    setBookWeight(e.target.value);
+                    setFormValues({ ...formValues, weight: e.target.value });
+                  }}
+                  required
                 ></input>
+                <div>Please input BOOK weight in KG.</div>
               </div>
             )}
           </div>
