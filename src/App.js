@@ -9,26 +9,22 @@ function App() {
 
   const [selectedProductIds, setSelectedProductIds] = useState([]);
   useEffect(() => {
-    fetch("http://localhost/db.php")
+    fetch("/php/db.php")
       .then((response) => response.json())
       .then((data) => setProducts(data))
       .catch((error) => console.log(error));
   }, []);
 
   function updateProducts() {
-    fetch("http://localhost/db.php")
+    fetch("/php/db.php")
       .then((response) => response.json())
       .then((data) => setProducts(data));
   }
 
- 
-
   const handleProductSelection = (productId, isSelected) => {
     if (isSelected) {
-      // add productId to selectedProductIds array
       setSelectedProductIds((prevState) => [...prevState, productId]);
     } else {
-      // remove productId from selectedProductIds array
       setSelectedProductIds((prevState) =>
         prevState.filter((id) => id !== productId)
       );
@@ -38,19 +34,8 @@ function App() {
     console.log(selectedProductIds);
   }, 0);
 
-  // const [selectedProducts, setSelectedProducts] = useState([]);
-
-  // const handleProductSelection = (productId, isSelected) => {
-  //   if (isSelected) {
-  //     setSelectedProducts([...selectedProducts, productId]);
-  //   } else {
-  //     setSelectedProducts(selectedProducts.filter(id => id !== productId));
-  //   }
-  //   console.log(selectedProducts)
-  // };
-
   const handleMassDelete = () => {
-    fetch("http://localhost/delete.php", {
+    fetch("php/delete.php", {
       method: "POST",
       body: JSON.stringify(selectedProductIds),
     }).then(() => {
@@ -78,7 +63,8 @@ function App() {
             return (
               <div key={product.ID} className="product-container">
                 <div className="checkbox-container">
-                  <input className="delete-checkbox"
+                  <input
+                    className="delete-checkbox"
                     type="checkbox"
                     checked={selectedProductIds.includes(product.ID)}
                     onChange={(e) =>
@@ -105,7 +91,6 @@ function App() {
                   )}
                 </div>
               </div>
-             
             );
           })}
         </div>

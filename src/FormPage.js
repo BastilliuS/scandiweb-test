@@ -48,95 +48,95 @@ function FormPage(props) {
         ...prevErrors,
         price: "Please provide a numeric value",
       }));
-    }
-    else if (name === "price" && value===""){
+    } else if (name === "price" && value === "") {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        price: "",}))
+        price: "",
+      }));
     }
     if (name === "weight" && isNaN(value)) {
       setErrors((prevErrors) => ({
         ...prevErrors,
         weight: "Please provide a numeric value",
       }));
-    }
-    else if (name === "weight" && value===""){
+    } else if (name === "weight" && value === "") {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        weight: "",}))
+        weight: "",
+      }));
     }
     if (name === "height" && isNaN(value)) {
       setErrors((prevErrors) => ({
         ...prevErrors,
         height: "Please provide a numeric value",
       }));
-    }
-    else if (name === "height" && value===""){
+    } else if (name === "height" && value === "") {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        height: "",}))
+        height: "",
+      }));
     }
     if (name === "width" && isNaN(value)) {
       setErrors((prevErrors) => ({
         ...prevErrors,
         width: "Please provide a numeric value",
       }));
-    }
-    else if (name === "width" && value===""){
+    } else if (name === "width" && value === "") {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        width: "",}))
+        width: "",
+      }));
     }
     if (name === "length" && isNaN(value)) {
       setErrors((prevErrors) => ({
         ...prevErrors,
         length: "Please provide a numeric value",
       }));
-    }
-    else if (name === "length" && value===""){
+    } else if (name === "length" && value === "") {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        length: "",}))
+        length: "",
+      }));
     }
     if (name === "name" && !isNaN(value)) {
       setErrors((prevErrors) => ({
         ...prevErrors,
         name: "Please provide a text value",
       }));
-    }
-    else if (name === "name" && value===""){
+    } else if (name === "name" && value === "") {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        name: "",}))
-    }
-    else if (name === "name" && value===""){
+        name: "",
+      }));
+    } else if (name === "name" && value === "") {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        name: "",}))
+        name: "",
+      }));
     }
     if (name === "sku" && isNaN(value)) {
       setErrors((prevErrors) => ({
         ...prevErrors,
         sku: "Please provide a numeric value",
       }));
-    }
-    else if (name === "sku" && value===""){
+    } else if (name === "sku" && value === "") {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        sku: "",}))
+        sku: "",
+      }));
     }
     if (name === "size" && isNaN(value)) {
       setErrors((prevErrors) => ({
         ...prevErrors,
         size: "Please provide a numeric value",
       }));
-    }
-    else if (name === "size" && value===""){
+    } else if (name === "size" && value === "") {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        size: "",}))
+        size: "",
+      }));
     }
-    console.log(errors)
+    console.log(errors);
   }
 
   const handleSave = () => {
@@ -157,12 +157,17 @@ function FormPage(props) {
       };
       console.log(productData);
 
-      fetch("http://localhost/add_product.php", {
+      fetch("/php/add_product.php", {
         method: "POST",
 
         body: JSON.stringify(productData),
       })
-        .then((response) => response.json())
+        .then((response) => {
+          if (response.status === 500) {
+            alert("SKU already exists, please choose another SKU.");
+          }
+          return response.json();
+        })
         .then((data) => console.log(data))
         .catch((error) => console.error(error));
 

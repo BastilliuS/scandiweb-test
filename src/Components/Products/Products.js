@@ -8,60 +8,29 @@ const Products = (props) => {
   const size = props.size;
   const dimensions = props.dimensions;
 
- 
- const [selectedProductIds,setSelectedProductIds]=useState([]);
+  const [selectedProductIds, setSelectedProductIds] = useState([]);
 
-  // const [selectedProductIds, dispatch] = useReducer(
-  //   (state, action) => {
-  //     switch (action.type) {
-  //       case "add":
-  //         return [...state, action.payload];
-  //       case "remove":
-  //         return state.filter((id) => id !== action.payload);
-  //       default:
-  //         return state;
-  //     }
-  //   },
-  //   []
-  // );
-  
- 
   const handleProductSelection = (productId, isSelected) => {
     if (isSelected) {
-      // add productId to selectedProductIds array
       setSelectedProductIds((prevState) => [...prevState, productId]);
     } else {
-      // remove productId from selectedProductIds array
       setSelectedProductIds((prevState) =>
         prevState.filter((id) => id !== productId)
       );
-    }}
-  // const handleProductSelection = (productId, isSelected) => {
-  //   if (isSelected) {
-  //     // add productId to selectedProductIds array
-  //     dispatch({ type: "add", payload: productId });
-  //   } else {
-  //     // remove productId from selectedProductIds array
-  //     dispatch({ type: "remove", payload: productId });
-  //   }
-  // };
+    }
+  };
 
   setTimeout(() => {
     console.log(selectedProductIds);
   }, 0);
- 
 
   return (
-    
     <div className="product-container">
       <div className="checkbox-container">
         <input
           type="checkbox"
           checked={selectedProductIds.includes(props.id)}
-              onChange={(e) =>
-                handleProductSelection(props.id, e.target.checked)
-              }
-         
+          onChange={(e) => handleProductSelection(props.id, e.target.checked)}
         />
       </div>
       <div className="product-content">
